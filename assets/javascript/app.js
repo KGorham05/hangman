@@ -76,11 +76,21 @@ document.onkeyup = function (event) {
     };
 
     // Check for win condition THIS ISN'T WORKING
-    if (blankAnswerArray == solution) {
+    if (blankAnswerArray === solution) {
         alert("You win!");
     }
     // Check for loss condition
+    if (guesses == 0) {
+        alert("You lost!");
+        guesses = 7;
+        guessedLetters = [];
+        solutionMixedLetterCasing = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+        solution = solutionMixedLetterCasing.toUpperCase();
+        blankAnswerArray = [];
+        answerArrayText.textContent = blankAnswerArray;
 
+        // need to fix some more things at game lost 
+    };
     // update scoreboard
     winsText.textContent = wins;
     guessesText.textContent = guesses;
