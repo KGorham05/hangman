@@ -12,6 +12,7 @@ var guesses = 7;
 // Letters already guessed displayed like L Z Y H.
 var guessedLetters = [];
 var isGuessCorrect = true;
+var numCorrectLetters = 0;
 // Create variables that hold references to the places
 // in the HTML where we want to display things.
 var winsText = document.getElementById("wins-text");
@@ -38,8 +39,10 @@ var solution = solutionMixedLetterCasing.toUpperCase();
 for (i = 0; i < solution.length; i++) {
     if (solution.charAt(i) == " ") {
         blankAnswerArray.push(" ");
+        numCorrectLetters++;
     } else if (solution.charAt(i) == "-") {
         blankAnswerArray.push("-");
+        numCorrectLetters++;
     } else {
         blankAnswerArray.push("_");
     };
@@ -66,6 +69,8 @@ document.onkeyup = function (event) {
             // update the blankAnswerArray
             answerArrayText.textContent = blankAnswerArray;
             isGuessCorrect = true;
+            numCorrectLetters++;
+            console.log(numCorrectLetters);
         };
     };
     // if incorrect
@@ -75,9 +80,30 @@ document.onkeyup = function (event) {
         guessedLetters.push(userGuess.toUpperCase());
     };
 
-    // Check for win condition THIS ISN'T WORKING
-    if (blankAnswerArray === solution) {
+    // Check for win condition this is broken, duplicate letter input issues
+    if (numCorrectLetters == solution.length) {
         alert("You win!");
+        guesses = 7;
+        guessedLetters = [];
+        solutionMixedLetterCasing = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+        solution = solutionMixedLetterCasing.toUpperCase();
+        blankAnswerArray = [];
+        for (i = 0; i < solution.length; i++) {
+            if (solution.charAt(i) == " ") {
+                blankAnswerArray.push(" ");
+                numCorrectLetters++;
+            } else if (solution.charAt(i) == "-") {
+                blankAnswerArray.push("-");
+                numCorrectLetters++;
+            } else {
+                blankAnswerArray.push("_");
+            };
+        };
+        wins++;
+        console.log(solution);
+        
+        // display the blank answer array
+        answerArrayText.textContent = blankAnswerArray;
     }
     // Check for loss condition
     if (guesses == 0) {
@@ -87,6 +113,20 @@ document.onkeyup = function (event) {
         solutionMixedLetterCasing = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
         solution = solutionMixedLetterCasing.toUpperCase();
         blankAnswerArray = [];
+        for (i = 0; i < solution.length; i++) {
+            if (solution.charAt(i) == " ") {
+                blankAnswerArray.push(" ");
+                numCorrectLetters++;
+            } else if (solution.charAt(i) == "-") {
+                blankAnswerArray.push("-");
+                numCorrectLetters++;
+            } else {
+                blankAnswerArray.push("_");
+            };
+        };
+        console.log(solution);
+        
+        // display the blank answer array
         answerArrayText.textContent = blankAnswerArray;
 
         // need to fix some more things at game lost 
